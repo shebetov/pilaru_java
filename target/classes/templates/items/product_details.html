@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title th:text="'Pila.Ru - ' + ${product.name}"></title>
+
+
+    <th:block th:replace="base.html :: base_head"></th:block>
+    <link href="/assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <th:block th:replace="base.html :: sidebar"></th:block>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <th:block th:replace="base.html :: topbar"></th:block>
+
+            <div class="container-fluid">
+
+                <input class="btn btn-link" type=button value="Назад" onClick="javascript:history.go(-1);" style="margin-left: -15px;">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-xl-11">
+                        <h4 th:text="${product.name}"></h4>
+                        <p th:text="'Номер позиции: П' + ${product.id}"></p>
+                        <p th:text="'Категория: ' + ${product.category.name}"></p>
+                        <p th:text="'Единица измерения: ' + ${product.unit_measurement}"></p>
+
+                        <th:block th:if="${is_in_order}">
+                            <!--            onclick="api_add_product_to_order({{ product.id }})"-->
+                            <button class="btn btn-primary" name="add-product-to-order" th:data-item-id="${product.id}">Добавить продукт в заказ</button>
+                        </th:block>
+
+
+                        <th:block th:if="${!is_in_order}">
+                            <button class="btn btn-secondary" name="add-product-to-order" th:data-item-id="${product.id}" disabled>Уже добавлен!</button>
+                        </th:block>
+
+                        <h5 class="mt-5">Предложения:</h5>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>Номер</th>
+                                            <th>Название</th>
+                                            <th>Поставщик</th>
+                                            <th>Дата добавления</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        <th:block th:each="item : ${items}">
+                                            <tr>
+                                                <td th:text="${item.id}"></td>
+                                                <td th:text="${item.name}"></td>
+                                                <td th:text="${item.supplier.name}"></td>
+                                                <td th:text="${item.created_date}"></td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <th:block th:replace="base.html :: footer"></th:block>
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<th:block th:replace="base.html :: page_end"></th:block>
+
+<!-- Page level plugins -->
+<script src="/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json",
+            },
+            "paging": false,
+            "searching": false
+        });
+    });
+</script>
+
+</body>
+
+</html>

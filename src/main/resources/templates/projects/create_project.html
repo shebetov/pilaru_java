@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Pila.Ru - Новый проект</title>
+
+
+    <th:block th:replace="base.html :: base_head"></th:block>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <th:block th:replace="base.html :: sidebar"></th:block>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <th:block th:replace="base.html :: topbar"></th:block>
+
+            <div class="container-fluid">
+
+
+                <div th:fragment="content">
+
+
+                    <form action="/create_project" method="post" style="width: 50%;">
+                        <p>
+                            <label for="id_name">Название проекта:</label>
+                            <input type="text" name="name" class="form-control form-control-user" maxlength="256" required id="id_name">
+                        </p>
+
+                        <button  type="submit"  class="btn btn-success">Создать проект</button>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <th:block th:replace="base.html :: footer"></th:block>
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<th:block th:replace="base.html :: page_end"></th:block>
+
+</body>
+
+</html>

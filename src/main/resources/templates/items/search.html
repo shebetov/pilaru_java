@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Pila.Ru - Каталог</title>
+
+
+    <th:block th:replace="base.html :: base_head"></th:block>
+    <link href="/assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <th:block th:replace="base.html :: sidebar"></th:block>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <th:block th:replace="base.html :: topbar"></th:block>
+
+            <div class="container-fluid">
+
+
+                <div th:fragment="content">
+
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a style="font-size: 14px;" href="/search">Все категории</a></li>
+                        <li class="list-inline-item"> > </li>
+                        <li class="list-inline-item" th:text="${category_name}"></li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-2">
+
+                            <ul class="list-group list-group-flush">
+                                <th:block th:if="${categories != null}" th:each="category : ${categories}">
+                                    <li class="list-group-item"><a th:href="@{/search/{x}(x=${category.id})}" th:text="${category.name}"></a></li>
+                                </th:block>
+                            </ul>
+                        </div>
+                        <div class="col-10">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>Номер</th>
+                                                <th>Название</th>
+                                                <th>Категория</th>
+                                                <th>Поставщик</th>
+                                                <th>Ед. измерения</th>
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Номер</th>
+                                                <th>Название</th>
+                                                <th>Категория</th>
+                                                <th>Поставщик</th>
+                                                <th>Ед. измерения</th>
+                                            </tr>
+                                            </tfoot>
+                                            <tbody>
+
+                                            <th:block th:each="product : ${products}">
+                                                <tr>
+                                                    <td th:text="'П' + ${product.id}"></td>
+                                                    <td><a th:href="@{/product/{x}(x=${product.id})}" th:text="${product.name}"></a></td>
+                                                    <td th:text="${product.category.name}"></td>
+                                                    <td>-</td>
+                                                    <td th:text="${product.unit_measurement}"></td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <th:block th:replace="base.html :: footer"></th:block>
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<th:block th:replace="base.html :: page_end"></th:block>
+
+<!-- Page level plugins -->
+<script src="/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json",
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>
